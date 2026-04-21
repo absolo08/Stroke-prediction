@@ -4,7 +4,7 @@ import joblib
 
 app = Flask(__name__)
 
-model = joblib.load("lrR.pkl")
+model = joblib.load("soloA(1).pkl")
 
 
 @app.route("/")
