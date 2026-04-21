@@ -1,0 +1,188 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Stroke Prediction App</title>
+
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+
+<body class="bg-light">
+    <!-- Navbar -->
+  <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+    <div class="container">
+      <a class="navbar-brand fw-bold" href="#">Stroke Risk Predictor </a>
+    </div>
+  </nav>
+
+  <!-- Main Form -->
+  <div class="container mt-5">
+    <div class="row justify-content-center">
+      <div class="col-lg-6 col-md-8">
+        <div class="card shadow border-0 rounded-4">
+          <div class="card-body p-4">
+            <h3 class="text-center text-primary mb-4">Stroke Prediction System</h3>
+
+
+<div class="container mt-5">
+
+    <div class="card shadow p-4">
+        <h2 class="text-center mb-4">🧠 Stroke Prediction System</h2>
+         <form action="/predict" method="post" class="needs-validation" novalidate>
+
+
+            <!-- Numeric Inputs -->
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <label>Age</label>
+                    <input type="number" name="age" class="form-control" required>
+                </div>
+
+                <div class="col-md-6 mb-3">
+                    <label>BMI</label>
+                    <input type="number" step="0.1" name="bmi" class="form-control" required>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <label>Average Glucose Level</label>
+                    <input type="number" step="0.1" name="avg_glucose_level" class="form-control" required>
+                </div>
+
+                <div class="col-md-6 mb-3">
+                    <label>Hypertension</label>
+                    <select name="hypertension" class="form-select">
+                        <option value="0">No</option>
+                        <option value="1">Yes</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <label>Heart Disease</label>
+                <select name="heart_disease" class="form-select">
+                    <option value="0">No</option>
+                    <option value="1">Yes</option>
+                </select>
+            </div>
+
+            <!-- Gender -->
+            <div class="mb-3">
+                <label>Gender</label>
+                <select class="form-select" onchange="setGender(this.value)">
+                    <option value="male">Male</option>
+                    <option value="female">Female</option>
+                    <option value="other">Other</option>
+                </select>
+            </div>
+
+            <input type="hidden" name="gender_male" id="gender_male" value="1">
+            <input type="hidden" name="gender_other" id="gender_other" value="0">
+
+            <!-- Ever Married -->
+            <div class="mb-3">
+                <label>Ever Married</label>
+                <select class="form-select" onchange="setMarried(this.value)">
+                    <option value="no">No</option>
+                    <option value="yes">Yes</option>
+                </select>
+            </div>
+
+            <input type="hidden" name="ever_married_yes" id="ever_married_yes" value="0">
+
+            <!-- Work Type -->
+            <div class="mb-3">
+                <label>Work Type</label>
+                <select class="form-select" onchange="setWork(this.value)">
+                    <option value="private">Private</option>
+                    <option value="self">Self-employed</option>
+                    <option value="children">Children</option>
+                    <option value="never">Never Worked</option>
+                </select>
+            </div>
+
+            <input type="hidden" name="work_private" id="work_private" value="1">
+            <input type="hidden" name="work_self_employed" id="work_self_employed" value="0">
+            <input type="hidden" name="work_children" id="work_children" value="0">
+            <input type="hidden" name="work_never" id="work_never" value="0">
+
+            <!-- Residence -->
+            <div class="mb-3">
+                <label>Residence Type</label>
+                <select class="form-select" onchange="setResidence(this.value)">
+                    <option value="urban">Urban</option>
+                    <option value="rural">Rural</option>
+                </select>
+            </div>
+
+            <input type="hidden" name="residence_urban" id="residence_urban" value="1">
+
+            <!-- Smoking -->
+            <div class="mb-3">
+                <label>Smoking Status</label>
+                <select class="form-select" onchange="setSmoking(this.value)">
+                    <option value="never">Never Smoked</option>
+                    <option value="former">Formerly Smoked</option>
+                    <option value="current">Smokes</option>
+                </select>
+            </div>
+
+            <input type="hidden" name="smoke_never" id="smoke_never" value="1">
+            <input type="hidden" name="smoke_former" id="smoke_former" value="0">
+            <input type="hidden" name="smoke_current" id="smoke_current" value="0">
+
+            <!-- Submit -->
+            <div class="text-center mt-3">
+                <button type="submit" class="btn btn-primary w-50">Predict</button>
+            </div>
+
+        </form>
+
+        <!-- Result -->
+        {% if prediction_value %}
+        <div class="alert alert-info text-center mt-4">
+            <h5>{{ prediction_value }}</h5>
+        </div>
+        {% endif %}
+
+    </div>
+</div>
+
+<!-- JavaScript for encoding -->
+<script>
+function setGender(val){
+    document.getElementById("gender_male").value = (val === "male") ? 1 : 0;
+    document.getElementById("gender_other").value = (val === "other") ? 1 : 0;
+}
+
+function setMarried(val){
+    document.getElementById("ever_married_yes").value = (val === "yes") ? 1 : 0;
+}
+
+function setWork(val){
+    document.getElementById("work_private").value = (val === "private") ? 1 : 0;
+    document.getElementById("work_self_employed").value = (val === "self") ? 1 : 0;
+    document.getElementById("work_children").value = (val === "children") ? 1 : 0;
+    document.getElementById("work_never").value = (val === "never") ? 1 : 0;
+}
+
+function setResidence(val){
+    document.getElementById("residence_urban").value = (val === "urban") ? 1 : 0;
+}
+
+function setSmoking(val){
+    document.getElementById("smoke_never").value = (val === "never") ? 1 : 0;
+    document.getElementById("smoke_former").value = (val === "former") ? 1 : 0;
+    document.getElementById("smoke_current").value = (val === "current") ? 1 : 0;
+}
+
+-- Bootstrap JS --
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+</body>
+</html>
+
